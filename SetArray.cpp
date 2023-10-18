@@ -45,7 +45,7 @@ public:
 
     }
 
-    bool apagarvalor(unsigned int value){
+    bool apagarvalor(int value){
         if(this->capacidade >= 3*(this->tamanho)) diminuircapacidade();
         for(unsigned int i = 0; i < this->tamanho; i++){
             if(this->dado[i] == value){
