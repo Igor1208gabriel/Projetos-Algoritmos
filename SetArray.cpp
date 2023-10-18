@@ -23,13 +23,13 @@ private:
         delete [] this->dado;
         this->capacidade *=2;
         this->dado = novodado;
-        delete [] novodado;
     }
 
 public:
     conjunto(){
         this->capacidade=8;
         this->dado = new int[8];
+        this->tamanho = 0;
     }
     ~conjunto(){
         delete [] this->dado;
@@ -46,7 +46,7 @@ public:
     }
 
     bool apagarvalor(int value){
-        if(this->capacidade >= 3*(this->tamanho)) diminuircapacidade();
+        if(this->capacidade >= (this->tamanho * 3   )) diminuircapacidade();
         for(unsigned int i = 0; i < this->tamanho; i++){
             if(this->dado[i] == value){
                 for(unsigned int j = i; j < this->tamanho; i++){
@@ -77,18 +77,41 @@ public:
 
     void printo(){
         for(unsigned int i = 0; i < this->tamanho; i++){
-            cout << i << " ";
+            cout << dado[i] << " ";
         }
         cout << "\n";
     }
 };
 
 int main(){
+    cout << "Quantos valores colocar no set: ";
     int n; cin >> n;
     conjunto seti;
-    while(n--){
-        int temp; cin >> temp;
-        seti.inserir(temp);
+    while(n){
+        int temp; 
+        cin >> temp;
+
+        cout << "Digite os valores: \n";
+        if(seti.inserir(temp)){
+            n--;
+            cout << "true ";
+        }
+        else  cout << "false ";
         seti.printo();
+        cout << "\n";
     }
+        int c;
+        cout << "Quantos valores retirar do set: ";
+        cin >> c;
+        cout << "Digite os valores: \n";
+        while(c){
+            int temp; cin >> temp;
+            if(seti.apagarvalor(temp)){ cout << "deu certo"; c--;}
+            else{cout << "deu errado";}
+            cout << "\n";
+        }
+
+        cout << seti.maior();
+
+
 }
