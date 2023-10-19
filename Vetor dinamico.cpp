@@ -8,18 +8,23 @@ struct vetor{
     int *dado;
 
     void aumentarcapacidade(){
-        vetor *novovetor = new vetor;
-        novovetor->capacidade = 2 * this->capacidade;
+        int* novodado = new int[this->capacidade *2];
         for(unsigned int i = 0; i < this->tamanho; i++){
-            novovetor->dado[i] = this->dado[i];
+            novodado->dado[i] = this->dado[i];
         }
         delete [] this->dado;
-        this->dado = novovetor->dado;
+        this->dado = novodado;
         this->capacidade *=2; 
     }
 
     void diminuircapacidade(){
-        vetor *novovetor = new vetor;
+        int* novodado = new int[this->capacidade /2];
+        for(unsigned int i = 0; i < this->capacidade; i++){
+            novodado->dado[i] = this->dado[i];
+        }
+        delete [] this->dado;
+        this->dado = novodado;
+        this->capacidade /=2;
     }
 
     public:
@@ -38,5 +43,4 @@ struct vetor{
 
 int main(){
     vetor n;
-
 }

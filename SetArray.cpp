@@ -83,34 +83,5 @@ public:
 };
 
 int main(){
-    cout << "Quantos valores colocar no set: ";
-    int n; cin >> n;
-    conjunto seti;
-    while(n){
-        int temp; 
-        cin >> temp;
-
-        cout << "Digite os valores: \n";
-        if(seti.inserir(temp)){
-            n--;
-            cout << "true ";
-        }
-        else  cout << "false ";
-        seti.printo();
-        cout << "\n";
-    }
-        int c;
-        cout << "Quantos valores retirar do set: ";
-        cin >> c;
-        cout << "Digite os valores: \n";
-        while(c){
-            int temp; cin >> temp;
-            if(seti.apagarvalor(temp)){ cout << "deu certo"; c--;}
-            else{cout << "deu errado";}
-            cout << "\n";
-        }
-
-        cout << seti.maior();
-
-
+    conjunto n;
 }
