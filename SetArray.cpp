@@ -1,6 +1,5 @@
 #include <iostream>
 using namespace std;
-//mudança
 class conjunto{
 
 private:
