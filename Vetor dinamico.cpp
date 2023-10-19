@@ -10,7 +10,7 @@ struct vetor{
     void aumentarcapacidade(){
         int* novodado = new int[this->capacidade *2];
         for(unsigned int i = 0; i < this->tamanho; i++){
-            novodado->dado[i] = this->dado[i];
+            novodado[i] = this->dado[i];
         }
         delete [] this->dado;
         this->dado = novodado;
@@ -20,7 +20,7 @@ struct vetor{
     void diminuircapacidade(){
         int* novodado = new int[this->capacidade /2];
         for(unsigned int i = 0; i < this->capacidade; i++){
-            novodado->dado[i] = this->dado[i];
+            novodado[i] = this->dado[i];
         }
         delete [] this->dado;
         this->dado = novodado;
@@ -43,4 +43,10 @@ struct vetor{
 
 int main(){
     vetor n;
+}
+
+
+int main(){
+    vetor n;
+    
 }
