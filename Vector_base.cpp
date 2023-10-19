@@ -18,6 +18,10 @@ struct vetor{
         this->capacidade *=2; 
     }
 
+    void diminuircapacidade(){
+        vetor *novovetor = new vetor;
+    }
+
     public:
     vetor(){
         this->tamanho = 0;
