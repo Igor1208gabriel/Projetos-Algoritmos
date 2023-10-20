@@ -1,0 +1,31 @@
+struct LDL{
+    private:
+        struct nodeldl{
+            int valor;
+            nodeldl *anterior, *proximo;
+        }
+        nodeldl *primeiro, *ultimo;
+    public:
+        LDL(){
+            this->primeiro = nullptr;
+            this->ultimo = nullptr;
+        }
+        ~LDL(){
+
+            if(primeiro != nullptr){
+                nodeldl *este;
+                while(este->proximo != nullptr){
+                    nodeldl *deletar = este->proximo;
+                    delete [] deletar;
+                }
+            }
+        }
+        void pushback(int valor){
+            nodeldl *novono = new nodeldl;
+            novono->valor = value;
+        
+            if(primeiro == nullptr){
+                this->primeiro
+            }
+        }
+};
