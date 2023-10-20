@@ -1,17 +1,21 @@
+using namespace std;
+
 struct LDL{
+
     private:
         struct nodeldl{
             int valor;
             nodeldl *anterior, *proximo;
         }
         nodeldl *primeiro, *ultimo;
+        unsigned int tamanho;
     public:
         LDL(){
             this->primeiro = nullptr;
             this->ultimo = nullptr;
+            tamanho = 0;
         }
         ~LDL(){
-
             if(primeiro != nullptr){
                 nodeldl *este;
                 while(este->proximo != nullptr){
@@ -20,14 +24,31 @@ struct LDL{
                 }
             }
         }
-        void pushback(int valor){
+        void empurra(int valor){
             nodeldl *novono = new nodeldl;
-            novono->valor = value;
-        
+            novono->valor = this->valor;
+            novono->proximo = nullptr;
+            novono->anterior = this->ultimo;
+
             if(primeiro == nullptr){
-                this->primeiro
+                this->primeiro = novono;
+                this->ultimo = novono;
+            }
+            else{
+                this->ultimo->proximo = novono;
+                this->ultimo = novono;
+            }
+        }
+        void puxa(int valor){
+            nodeldl *novono = new nodeldl;
+            novono->valor = this->valor;
+            novono->proximo = this->primeiro;
+            novono->anterior = nullptr;
+            
+            if(primeiro == nullptr){
+                this->primeiro = novono;
+                this->ultimo = novono;
             }
         }
 };
 
-//alterações
