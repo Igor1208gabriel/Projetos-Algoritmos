@@ -38,6 +38,7 @@ struct LDL{
                 this->ultimo->proximo = novono;
                 this->ultimo = novono;
             }
+            tamanho++;
         }
         void puxa(int valor){
             nodeldl *novono = new nodeldl;
@@ -49,6 +50,122 @@ struct LDL{
                 this->primeiro = novono;
                 this->ultimo = novono;
             }
+            tamanho++
+        }
+
+        void coloca(int indice, int valor){
+            if(indice > tamanho+1) return;
+            if(indice == tamanho) empurra(valor);
+            if(indice == 0) puxa(valor);
+
+            nodeldl *este = new nodeldl;    
+            este->valor = this->valor;
+
+            if(indice <= tamanho/2){
+                este = this->primeiro;
+                for(int i = 0 ; i < indice ; i++){
+                   este = este->proximo; 
+                }
+            }
+
+            if(indice > tamanho/2){
+                este = this->ultimo;
+                for(int i = tamanho; i < indice ; i++){
+                    este = este->anterior;
+                }
+            }
+
+            este->proximo->anterior = este;
+            este->anterior->proximo = este; 
+
+        }
+
+        void tirar_comeco(){
+            if(this->primeiro == nullptr) return;
+            no_LL *deletar = new no_LL;
+            deletar = this->primeiro;
+            this->primeiro->anterior = nullptr;
+
+            if(this->primeiro == this->ultimo){
+                this->primeiro = nullptr;
+                this->ultimo = nullptr;
+            }else 
+                this->primeiro = this->primeiro->proximo;
+            delete deletar;
+            tamanho--;
+        }
+        void tirar_fim(){
+            if(this->primeiro == nullptr) return;
+            no_LL *deletar = new no_LL;
+            deletar = this->ultimo;
+            if(this->primeiro == this->ultimo){
+                this->primeiro = nullptr;
+                this->ultimo = nullptr;
+            }else{
+                 this->ultimo = this->ultimo->anterior;   
+                 this->ultimo->proximo = nullptr
+            }
+            delete deletar;
+            tamanho--;
+        }
+        void tirar_em(int indice){
+            if(this->primeiro == nullptr || indice > this->tamanho) return;
+            no_LL *achar = new no_LL;
+            
+            if(this->primeiro == this->ultimo){
+                this->primeiro = nullptr;
+                this->ultimo = nullptr;
+                achar = this->primeiro;
+                delete achar;
+                tamanho--;
+                return;
+            }
+
+            if(indice = tamanho)tirar_fim();
+            if(indice = 0   )tirar_comeco();
+
+            if(indice <= tamanho/2){
+                achar = this->primeiro;
+                for(int i = 0 ; i < indice ; i++)){
+                    achar = achar->proximo;
+                }
+
+            }
+
+            else if(indice > tamanho/2){
+                achar = this->ultimo;
+                for(int i = tamanho; i < indice ; i++){
+                    achar = achar->anterior;
+                }
+            }
+            
+            achar->anterior->proximo = achar->proximo;
+            achar->proximo->anterior = achar->anterior;
+            tamanho--;
+            delete achar;
+        }
+
+        int indice(int indice){
+            if (indice > tamanho) return;
+            no_LL *este = new no_LL;
+            este = this->primeiro;
+            if (indice >= tamanho/2){
+                for(int i = 0 ; i < indice ; i++){
+                    este = este->proximo;
+                }
+            }
+            else{
+                este = this->ultimo;
+                for(int i = indice ; i < tamanho; i++){
+                    este = este->anterior;
+                }
+            }
+            return este->valor;
         }
 };
 
+int main(){
+    LDL n;
+    n.empurra(100)
+    cout << n.indice(0)
+}
