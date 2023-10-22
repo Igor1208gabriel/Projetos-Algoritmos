@@ -1,3 +1,4 @@
+#include <iostream>
 using namespace std;
 
 struct LDL{
@@ -6,7 +7,7 @@ struct LDL{
         struct nodeldl{
             int valor;
             nodeldl *anterior, *proximo;
-        }
+        };
         nodeldl *primeiro, *ultimo;
         unsigned int tamanho;
     public:
@@ -17,7 +18,7 @@ struct LDL{
         }
         ~LDL(){
             if(primeiro != nullptr){
-                nodeldl *este;
+                nodeldl *este = new nodeldl;
                 while(este->proximo != nullptr){
                     nodeldl *deletar = este->proximo;
                     delete [] deletar;
@@ -26,7 +27,7 @@ struct LDL{
         }
         void empurra(int valor){
             nodeldl *novono = new nodeldl;
-            novono->valor = this->valor;
+            novono->valor = valor;
             novono->proximo = nullptr;
             novono->anterior = this->ultimo;
 
@@ -42,7 +43,7 @@ struct LDL{
         }
         void puxa(int valor){
             nodeldl *novono = new nodeldl;
-            novono->valor = this->valor;
+            novono->valor = valor;
             novono->proximo = this->primeiro;
             novono->anterior = nullptr;
             
@@ -50,27 +51,27 @@ struct LDL{
                 this->primeiro = novono;
                 this->ultimo = novono;
             }
-            tamanho++
+            tamanho++;
         }
 
-        void coloca(int indice, int valor){
+        void coloca(unsigned int indice, int valor){
             if(indice > tamanho+1) return;
             if(indice == tamanho) empurra(valor);
             if(indice == 0) puxa(valor);
 
             nodeldl *este = new nodeldl;    
-            este->valor = this->valor;
+            este->valor = valor;
 
             if(indice <= tamanho/2){
                 este = this->primeiro;
-                for(int i = 0 ; i < indice ; i++){
+                for(unsigned int i = 0 ; i < indice ; i++){
                    este = este->proximo; 
                 }
             }
 
             if(indice > tamanho/2){
                 este = this->ultimo;
-                for(int i = tamanho; i < indice ; i++){
+                for(unsigned int i = tamanho; i < indice ; i++){
                     este = este->anterior;
                 }
             }
@@ -82,7 +83,7 @@ struct LDL{
 
         void tirar_comeco(){
             if(this->primeiro == nullptr) return;
-            no_LL *deletar = new no_LL;
+            nodeldl *deletar = new nodeldl;
             deletar = this->primeiro;
             this->primeiro->anterior = nullptr;
 
@@ -96,21 +97,21 @@ struct LDL{
         }
         void tirar_fim(){
             if(this->primeiro == nullptr) return;
-            no_LL *deletar = new no_LL;
+            nodeldl *deletar = new nodeldl;
             deletar = this->ultimo;
             if(this->primeiro == this->ultimo){
                 this->primeiro = nullptr;
                 this->ultimo = nullptr;
             }else{
                  this->ultimo = this->ultimo->anterior;   
-                 this->ultimo->proximo = nullptr
+                 this->ultimo->proximo = nullptr;
             }
             delete deletar;
             tamanho--;
         }
-        void tirar_em(int indice){
+        void tirar_em(unsigned int indice){
             if(this->primeiro == nullptr || indice > this->tamanho) return;
-            no_LL *achar = new no_LL;
+            nodeldl *achar = new nodeldl;
             
             if(this->primeiro == this->ultimo){
                 this->primeiro = nullptr;
@@ -121,12 +122,12 @@ struct LDL{
                 return;
             }
 
-            if(indice = tamanho)tirar_fim();
-            if(indice = 0   )tirar_comeco();
+            if(indice == tamanho)tirar_fim();
+            if(indice == 0   )tirar_comeco();
 
             if(indice <= tamanho/2){
                 achar = this->primeiro;
-                for(int i = 0 ; i < indice ; i++)){
+                for(unsigned int i = 0 ; i < indice ; i++){
                     achar = achar->proximo;
                 }
 
@@ -134,7 +135,7 @@ struct LDL{
 
             else if(indice > tamanho/2){
                 achar = this->ultimo;
-                for(int i = tamanho; i < indice ; i++){
+                for(unsigned int i = tamanho; i < indice ; i++){
                     achar = achar->anterior;
                 }
             }
@@ -145,18 +146,18 @@ struct LDL{
             delete achar;
         }
 
-        int indice(int indice){
-            if (indice > tamanho) return;
-            no_LL *este = new no_LL;
+        int indice(unsigned int indice){
+            if (indice > tamanho) return -1;
+            nodeldl *este = new nodeldl;
             este = this->primeiro;
             if (indice >= tamanho/2){
-                for(int i = 0 ; i < indice ; i++){
+                for(unsigned int i = 0 ; i < indice ; i++){
                     este = este->proximo;
                 }
             }
             else{
                 este = this->ultimo;
-                for(int i = indice ; i < tamanho; i++){
+                for(unsigned int i = indice ; i < tamanho; i++){
                     este = este->anterior;
                 }
             }
@@ -166,6 +167,6 @@ struct LDL{
 
 int main(){
     LDL n;
-    n.empurra(100)
-    cout << n.indice(0)
+    n.puxa(100);
+    cout << n.indice(0) << " " << n.indice(1);
 }
