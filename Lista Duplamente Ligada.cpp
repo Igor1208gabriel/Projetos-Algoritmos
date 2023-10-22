@@ -1,8 +1,8 @@
 #include <iostream>
 using namespace std;
 
-struct LDL{
 
+struct LDL{
     private:
         struct nodeldl{
             int valor;
@@ -11,19 +11,20 @@ struct LDL{
         nodeldl *primeiro, *ultimo;
         unsigned int tamanho;
     public:
+        //unsigned int capacitty() {}
+        //double percent_occupied() {}
         LDL(){
             this->primeiro = nullptr;
             this->ultimo = nullptr;
             tamanho = 0;
         }
         ~LDL(){
-            if(primeiro != nullptr){
-                nodeldl *este = new nodeldl;
-                while(este->proximo != nullptr){
-                    nodeldl *deletar = este->proximo;
-                    delete [] deletar;
-                }
-            }
+            nodeldl *este = this->primeiro;
+            while(este != nullptr){
+                nodeldl* deletar = este;
+                este = este->proximo;
+                delete deletar;
+            }            
         }
         void empurra(int valor){
             nodeldl *novono = new nodeldl;
@@ -48,14 +49,16 @@ struct LDL{
             novono->anterior = nullptr;
             
             if(primeiro == nullptr){
-                this->primeiro = novono;
                 this->ultimo = novono;
             }
+            else    
+                this->primeiro->anterior = novono;
+            this->primeiro = novono;
+
             tamanho++;
         }
-
         void coloca(unsigned int indice, int valor){
-            if(indice > tamanho+1) return;
+            if(indice > tamanho) return;
             if(indice == tamanho) empurra(valor);
             if(indice == 0) puxa(valor);
 
@@ -80,9 +83,8 @@ struct LDL{
             este->anterior->proximo = este; 
 
         }
-
-        void tirar_comeco(){
-            if(this->primeiro == nullptr) return;
+        bool tirar_comeco(){
+            if(this->primeiro == nullptr) return false;
             nodeldl *deletar = new nodeldl;
             deletar = this->primeiro;
             this->primeiro->anterior = nullptr;
@@ -94,9 +96,10 @@ struct LDL{
                 this->primeiro = this->primeiro->proximo;
             delete deletar;
             tamanho--;
+            return true;
         }
-        void tirar_fim(){
-            if(this->primeiro == nullptr) return;
+        bool tirar_fim(){
+            if(this->primeiro == nullptr) return false;
             nodeldl *deletar = new nodeldl;
             deletar = this->ultimo;
             if(this->primeiro == this->ultimo){
@@ -108,44 +111,23 @@ struct LDL{
             }
             delete deletar;
             tamanho--;
+            return true;
         }
-        void tirar_em(unsigned int indice){
-            if(this->primeiro == nullptr || indice > this->tamanho) return;
-            nodeldl *achar = new nodeldl;
+        bool tirar_em(unsigned int indice){
+
+            if(indice >= this->tamanho) return false;
+            nodeldl *achar = this->primeiro;
+            if(indice == 0){return tirar_comeco();}
+            if(indice == tamanho-1){return tirar_fim();}
             
-            if(this->primeiro == this->ultimo){
-                this->primeiro = nullptr;
-                this->ultimo = nullptr;
-                achar = this->primeiro;
-                delete achar;
-                tamanho--;
-                return;
-            }
+            for(unsigned int i = 0; i < indice; i++)
+                achar = achar->proximo;
 
-            if(indice == tamanho)tirar_fim();
-            if(indice == 0   )tirar_comeco();
 
-            if(indice <= tamanho/2){
-                achar = this->primeiro;
-                for(unsigned int i = 0 ; i < indice ; i++){
-                    achar = achar->proximo;
-                }
-
-            }
-
-            else if(indice > tamanho/2){
-                achar = this->ultimo;
-                for(unsigned int i = tamanho; i < indice ; i++){
-                    achar = achar->anterior;
-                }
-            }
-            
             achar->anterior->proximo = achar->proximo;
-            achar->proximo->anterior = achar->anterior;
-            tamanho--;
-            delete achar;
+            achar->proximo->anterior = achar->anterior
+            
         }
-
         int indice(unsigned int indice){
             if (indice > tamanho) return -1;
             nodeldl *este = new nodeldl;
@@ -163,10 +145,52 @@ struct LDL{
             }
             return este->valor;
         }
+        unsigned int tamanho(){
+            return tamanho;
+        }
+        int inicio(){
+            return this->primeiro->valor;
+        }
+        int final(){
+            return this->ultimo->valor;
+        }
+        int achar_indice(int value){
+            nodeldl *novono = this->primeiro;
+            int count = 0;
+            while(novono->proximo != nullptr){
+                if(novono->valor = value) return count;
+                count++;
+                novono = novono->proximo;
+            }
+        }
+        int contar(int value){
+            nodeldl *novono = this->primeiro;
+            int count = 0;
+            while(novono->proximo != nullptr){
+                if(novono->valor = value) count++;
+                novono = novono->proximo;
+            }
+            return count;
+        }
+        int soma(){
+            nodeldl *novono = this->primeiro;
+            int count = 0;
+            while(novono->proximo != nullptr){
+                if(novono->valor = value) count+=novono->valor;
+                novono = novono->proximo;
+            }
+            return count;
+        }
+        void limpar(){
+
+        }
+
+
 };
 
 int main(){
     LDL n;
     n.puxa(100);
-    cout << n.indice(0) << " " << n.indice(1);
+    cout << n.indice(0) << endl;
+
 }
