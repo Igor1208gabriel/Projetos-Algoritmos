@@ -182,7 +182,8 @@ struct LDL{
             return count;
         }
         void limpar(){
-
+            nodeldl novono = this->primeiro;
+            
         }
 
 
