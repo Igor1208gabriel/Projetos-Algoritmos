@@ -11,8 +11,8 @@ struct LDL{
         nodeldl *primeiro, *ultimo;
         unsigned int tamanho;
     public:
-        //unsigned int capacitty() {}
-        //double percent_occupied() {}
+        unsigned int capacitty() {return tamanho;}
+        double percent_occupied() {return 1.00;}
         LDL(){
             this->primeiro = nullptr;
             this->ultimo = nullptr;
@@ -26,7 +26,7 @@ struct LDL{
                 delete deletar;
             }            
         }
-        void empurra(int valor){
+        void push_back(int valor){
             nodeldl *novono = new nodeldl;
             novono->valor = valor;
             novono->proximo = nullptr;
@@ -42,7 +42,7 @@ struct LDL{
             }
             tamanho++;
         }
-        void puxa(int valor){
+        void push_front(int valor){
             nodeldl *novono = new nodeldl;
             novono->valor = valor;
             novono->proximo = this->primeiro;
@@ -57,33 +57,36 @@ struct LDL{
 
             tamanho++;
         }
-        void coloca(unsigned int indice, int valor){
-            if(indice > tamanho) return;
-            if(indice == tamanho) empurra(valor);
-            if(indice == 0) puxa(valor);
-
-            nodeldl *este = new nodeldl;    
-            este->valor = valor;
-
-            if(indice <= tamanho/2){
-                este = this->primeiro;
-                for(unsigned int i = 0 ; i < indice ; i++){
-                   este = este->proximo; 
-                }
+        bool insert_at(unsigned int indice, int valor){
+            if(indice > tamanho) return false;
+            if(indice == tamanho){
+            push_back(valor);
+            return true;
             }
-
-            if(indice > tamanho/2){
-                este = this->ultimo;
-                for(unsigned int i = tamanho; i < indice ; i++){
-                    este = este->anterior;
-                }
+            if(indice == 0){
+            push_front(valor);
+            return true;
             }
+            
 
-            este->proximo->anterior = este;
-            este->anterior->proximo = este; 
+            nodeldl *este = new nodeldl;
+            este = this->primeiro;
+
+            for(unsigned int i = 0 ; i < indice ; i++){
+               este = este->proximo; 
+            }
+            nodeldl *novono = new nodeldl;
+            novono->valor = valor;
+            novono->proximo = este;
+            novono->anterior = este->anterior;
+            novono->anterior->proximo = novono;
+            novono->proximo->anterior = novono;
+            tamanho++;
+            
+            return true;
 
         }
-        bool tirar_comeco(){
+        bool pop_front(){
             if(this->primeiro == nullptr) return false;
             nodeldl *deletar = new nodeldl;
             deletar = this->primeiro;
@@ -98,7 +101,7 @@ struct LDL{
             tamanho--;
             return true;
         }
-        bool tirar_fim(){
+        bool pop_back(){
             if(this->primeiro == nullptr) return false;
             nodeldl *deletar = new nodeldl;
             deletar = this->ultimo;
@@ -113,85 +116,104 @@ struct LDL{
             tamanho--;
             return true;
         }
-        bool tirar_em(unsigned int indice){
+        bool remove_at(unsigned int indice){
 
             if(indice >= this->tamanho) return false;
             nodeldl *achar = this->primeiro;
-            if(indice == 0){return tirar_comeco();}
-            if(indice == tamanho-1){return tirar_fim();}
+            if(indice == 0){return pop_front();}
+            if(indice == tamanho-1){return pop_back();}
             
             for(unsigned int i = 0; i < indice; i++)
                 achar = achar->proximo;
 
-
             achar->anterior->proximo = achar->proximo;
-            achar->proximo->anterior = achar->anterior
+            achar->proximo->anterior = achar->anterior;
+            return true;
             
         }
-        int indice(unsigned int indice){
+        int get_at(unsigned int indice){
             if (indice > tamanho) return -1;
             nodeldl *este = new nodeldl;
             este = this->primeiro;
-            if (indice >= tamanho/2){
-                for(unsigned int i = 0 ; i < indice ; i++){
-                    este = este->proximo;
-                }
-            }
-            else{
-                este = this->ultimo;
-                for(unsigned int i = indice ; i < tamanho; i++){
-                    este = este->anterior;
-                }
+            for(unsigned int i = 0 ; i < indice; i++){
+                este = este->proximo;
             }
             return este->valor;
         }
-        unsigned int tamanho(){
-            return tamanho;
+        unsigned int size(){
+            return this->tamanho;
         }
-        int inicio(){
+        int front(){
             return this->primeiro->valor;
         }
-        int final(){
+        int back(){
             return this->ultimo->valor;
         }
-        int achar_indice(int value){
+        int find_index(int value){
             nodeldl *novono = this->primeiro;
             int count = 0;
             while(novono->proximo != nullptr){
-                if(novono->valor = value) return count;
+                if(novono->valor == value) return count;
                 count++;
                 novono = novono->proximo;
             }
+            return -1;
         }
-        int contar(int value){
+        int count(int value){
             nodeldl *novono = this->primeiro;
             int count = 0;
             while(novono->proximo != nullptr){
-                if(novono->valor = value) count++;
+                if(novono->valor == value) count++;
                 novono = novono->proximo;
             }
             return count;
         }
-        int soma(){
+        int sum(){
             nodeldl *novono = this->primeiro;
             int count = 0;
             while(novono->proximo != nullptr){
-                if(novono->valor = value) count+=novono->valor;
+                count+=novono->valor;
                 novono = novono->proximo;
             }
             return count;
         }
-        void limpar(){
-            nodeldl novono = this->primeiro;
-            
+        void clear(){
+            nodeldl *novono = this->primeiro;
+            while(novono->proximo != nullptr){
+                nodeldl *deletar = novono;
+                delete deletar;
+                novono = novono->proximo;
+            }
+            this->primeiro = nullptr;
+            this->ultimo = nullptr;
+        }
+        bool remove(int valor){
+            int indice = find_index(valor);
+            if(indice != -1){
+                remove_at(indice);
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        string tostring(){
+            nodeldl *este = this->primeiro;
+            string str =  "[";
+            str += to_string(este->valor);
+            este = este->proximo;
+            while(este != nullptr){
+                str+=", ";
+                str += to_string(este-> valor);
+                este = este->proximo;
+            }
+            str += "]";
+            return str;
         }
 
 
 };
 
 int main(){
-    LDL n;
-    n.puxa(100);
-    cout << n.indice(0) << endl;
-
+    LDL N;
 }
