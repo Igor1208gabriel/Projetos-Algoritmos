@@ -178,14 +178,10 @@ struct LDL{
             return count;
         }
         void clear(){
-            nodeldl *novono = this->primeiro;
-            while(novono->proximo != nullptr){
-                nodeldl *deletar = novono;
-                delete deletar;
-                novono = novono->proximo;
-            }
-            this->primeiro = nullptr;
-            this->ultimo = nullptr;
+            int x = tamanho;
+            while(x--){
+                pop_back();
+                }
         }
         bool remove(int valor){
             int indice = find_index(valor);
@@ -211,9 +207,18 @@ struct LDL{
             return str;
         }
 
-
 };
 
 int main(){
-    LDL N;
+    LDL listica;
+    int n; cin >> n;
+    while(n--){
+        int temp, temp2; cin >> temp >> temp2;
+        listica.insert_at(temp,temp2);
+    }
+    cout << listica.tostring() << "\n";
+
+    listica.clear();
+    cout << listica.tostring() << '\n';
+
 }
