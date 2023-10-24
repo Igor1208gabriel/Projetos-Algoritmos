@@ -1,4 +1,5 @@
 #include <iostream>
+#include <chrono>
 using namespace std;
 
 
@@ -212,13 +213,16 @@ struct LDL{
 int main(){
     LDL listica;
     int n; cin >> n;
+
+
+    auto comeco = chrono::high_resolution_clock::now();
     while(n--){
         int temp, temp2; cin >> temp >> temp2;
-        listica.insert_at(temp,temp2);
+        listica.push_back(temp);
     }
-    cout << listica.tostring() << "\n";
+    auto fim = chrono::high_resolution_clock::now();
+    auto duracao = fim-comeco;
 
-    listica.clear();
-    cout << listica.tostring() << '\n';
+    cerr << duracao.count() << "\n";
 
 }
