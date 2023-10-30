@@ -1,4 +1,5 @@
 #include <iostream>
+#include <chrono>
 using namespace std;
 
 struct vetor{
@@ -54,10 +55,10 @@ struct vetor{
     }
 
     bool remove_at(unsigned int index){
-        if (index > tamanho) return false;
+        if (index >= tamanho) return false;
         else{
-            for(unsigned int i = tamanho; i > index; i++){
-                dado[i-1] = dado[i];
+            for(unsigned int i = index; i < tamanho-1 ; i++){
+                dado[i] = dado[i+1];
             }
             tamanho--;
             return true;
@@ -81,7 +82,7 @@ struct vetor{
         insert_at(0, value);
     }
     bool pop_back(){return remove_at(tamanho);}
-    bool pop_front(){return remove_at(0);}
+    bool pop_front(){return remove_at(1);}
     int back(){return dado[tamanho-1];}
     int front(){return dado[0];}
     bool remove(int value){
@@ -122,18 +123,16 @@ struct vetor{
 
 int main(){
     vetor n;
-    int c; cin >> c;
-    while(c--){
-        int x; cin >> x;
-        n.push_back(x);
-        n.print_vetor();
+    for(int f = 1; f < 101; f++){
+     for(int i = 1; i <= f*1000; i ++){
+         n.push_back(1);
+     }
+     auto comeco = chrono::high_resolution_clock::now();
+     for(int i = 1; i <= f*1000; i ++){
+         n.pop_front();
+     }
+     auto fim = chrono::high_resolution_clock::now();
+     auto duracao = fim-comeco;
+    cerr << duracao.count() << "\n";
     }
-    cin >> c;
-    while(c--){
-        int x; cin >> x;
-        n.push_front(x);
-        n.print_vetor();
-    }
-    n.clear();
-    n.print_vetor();
 }
