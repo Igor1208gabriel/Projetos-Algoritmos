@@ -122,17 +122,21 @@ struct vetor{
 };
 
 int main(){
+    auto comeco = chrono::high_resolution_clock::now();
+    int x; cin >> x;
+    int z = x;
     vetor n;
-    for(int f = 1; f < 101; f++){
-     for(int i = 1; i <= f*1000; i ++){
-         n.push_back(1);
-     }
-     auto comeco = chrono::high_resolution_clock::now();
-     for(int i = 1; i <= f*1000; i ++){
-         n.pop_front();
-     }
-     auto fim = chrono::high_resolution_clock::now();
-     auto duracao = fim-comeco;
-    cerr << duracao.count() << "\n";
+    while(z--){
+        int temp; cin >> temp;
+        n.push_back(temp);
     }
+
+    cout << n.print_vetor() << "\n";
+
+    for(int i = 1; i <= x; i ++){
+        n.pop_back();
+    }
+    auto fim = chrono::high_resolution_clock::now();
+    auto duracao = fim-comeco;
+    cerr << duracao.count() << "\n";
 }
