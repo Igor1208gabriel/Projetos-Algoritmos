@@ -212,13 +212,16 @@ struct LDL{
 
 int main(){
     LDL listica;
-    int n; cin >> n;
-
-
     auto comeco = chrono::high_resolution_clock::now();
+    int n; cin >> n;
+    int x = n;
     while(n--){
         int temp; cin >> temp;
-        listica.push_front(temp);
+        listica.push_back(temp);
+    }
+
+    while(x--){
+        listica.pop_back();
     }
     auto fim = chrono::high_resolution_clock::now();
     auto duracao = fim-comeco;

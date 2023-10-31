@@ -1,8 +1,8 @@
 from random import randint as rd
-for i in range (1, 11):
+for i in range (1, 101):
     f = open(f'teste{i:02d}.txt', 'w')
 
-    f.write("1000" + "\n")
-    for j in range(500):
-        f.write(f"{rd(10000, 100000)}\n")
+    f.write(f"{i*100}\n")
+    for j in range(i*100):
+        f.write(f"{i}\n")
 print("DONE")
