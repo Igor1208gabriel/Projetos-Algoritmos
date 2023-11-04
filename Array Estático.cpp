@@ -43,7 +43,6 @@ struct vetor{
     unsigned int size(){return tamanho;}
     unsigned int capacity(){return capacidade;}
     double percent_occupied(){ return (tamanho*1.0)/(capacidade);}
-
     bool insert_at(unsigned int index, int value){
         if (index > tamanho) return false;
         if (tamanho >= capacidade) aumentarcapacidade();
@@ -53,7 +52,6 @@ struct vetor{
             tamanho++;
             return true;
     }
-
     bool remove_at(unsigned int index){
         if (index >= tamanho) return false;
         else{
@@ -68,7 +66,6 @@ struct vetor{
         if (index <= tamanho) return dado[index]; 
         else return -1; 
     }
-
     void clear(){
         this->tamanho = 0;
         this->capacidade = 0;
@@ -82,16 +79,13 @@ struct vetor{
         insert_at(0, value);
     }
     bool pop_back(){return remove_at(tamanho);}
-    bool pop_front(){return remove_at(1);}
+    bool pop_front(){return remove_at(0);}
     int back(){return dado[tamanho-1];}
     int front(){return dado[0];}
     bool remove(int value){
-        for(unsigned int i = 0; i < tamanho; i++){
-            if (dado[i] == value) return remove_at(i);
-        }
-        return false;
+        return(remove_at(find_index(value)));
     }
-    int find(int value){
+    int find_index(int value){
         for(unsigned int i = 0; i < tamanho; i++){
             if(dado[i] == value) return i;
         }
@@ -111,32 +105,15 @@ struct vetor{
         }
         return ans;
     }
-    void print_vetor(){
-        cout << "[" << dado[0];
+    string tostring(){
+        string ans = "[";
+        ans += to_string(dado[0]);
         for(unsigned int i = 1; i < tamanho; i++){
-            cout <<", " << dado[i] ;
+            ans += ", ";
+            ans += to_string(dado[i]) ;
         }
-        cout << "]\n";
+        ans += "]";
+        return ans;
     }
 
 };
-
-int main(){
-    auto comeco = chrono::high_resolution_clock::now();
-    int x; cin >> x;
-    int z = x;
-    vetor n;
-    while(z--){
-        int temp; cin >> temp;
-        n.push_back(temp);
-    }
-
-    cout << n.print_vetor() << "\n";
-
-    for(int i = 1; i <= x; i ++){
-        n.pop_back();
-    }
-    auto fim = chrono::high_resolution_clock::now();
-    auto duracao = fim-comeco;
-    cerr << duracao.count() << "\n";
-}
